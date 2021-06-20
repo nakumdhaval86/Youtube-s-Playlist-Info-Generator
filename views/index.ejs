@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Youtube PlayList Info Generator</title>
+  </head>
+  <body style="font-family: 'Poppins', sans-serif">
+    <div class="container">
+      <form method="POST" action="/">
+        <div class="form-group">
+          <label for="url">Enter Playlist URL</label>
+          <input
+            name="url"
+            type="text"
+            class="form-control"
+            id="url"
+            placeholder="Enter playlist url"
+          />
+          <small aria-disabled="true" class="text-muted"
+            >https://www.youtube.com/playlist?list=PL0UDhcbp2yeENlG-9w838aN-MffRckHBR</small
+          >
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      <div class="row mt-5">
+        <% if(err.length > 0){%>
+        <div class="col-sm-12 col-md-4 ml-auto">
+          <div
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+          >
+            <strong><%= err %></strong>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+        <%}%> <% if(msg.length > 0){%>
+        <div class="col-sm-12 col-md-4 ml-auto">
+          <div
+            class="alert alert-success alert-dismissible fade show"
+            role="alert"
+          >
+            <strong><%= msg %></strong>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+        <%}%>
+      </div>
+    </div>
+    <% if(data ){%>
+    <div class="container">
+      <div class="row">
+        <div class="card mb-3 ml-3" style="max-width: 1200px">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img
+                src="<%= data.thumbnail_url %>"
+                class="card-img"
+                alt="<%= data.title %>"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title"><%= data.title %></h5>
+                <h5 class="card-text">
+                  Total Video :<b><%= data.video_count%></b>
+                </h5>
+                <h5 class="card-text">
+                  Total View :<b><%= data.view_count%></b>
+                </h5>
+                <h5>Author : <B><%= data.author.name%></B></h5>
+                <p>
+                  Open Playlist :
+                  <a href="<%= data.url%>" target="_blank"><%= data.url %></a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">ID</th>
+            <th scope="col">URL</th>
+            <th scope="col">LENGTH</th>
+            <th scope="col">THUMB_URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% data.videos.forEach(function(ele,index){%>
+          <tr>
+            <th scope="row"><%= index+1%></th>
+            <td><%= ele.title%></td>
+            <td><%= ele.id%></td>
+            <td><a href="<%= ele.url%>" target="_blank"><%= ele.url%></a></td>
+            <td><%= ele.length%></td>
+            <td><%= ele.thumbnail_url%></td>
+          </tr>
+          <%})%>
+        </tbody>
+      </table>
+    </div>
+    <%}%>
+
+    <p class="p-2 mt-5 bg-info text-white">Developed By: Dhaval Nakum</p>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
