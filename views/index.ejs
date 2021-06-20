@@ -21,6 +21,36 @@
       rel="stylesheet"
     />
 
+    <!-- jquery-3.5.1 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script
+      src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+      type="text/javascript"
+    ></script>
+    <!-- data-table-css-->
+    <link
+      href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- toastify-css -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+
+    <!-- toastify-js -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+
     <title>Youtube PlayList Info Generator</title>
   </head>
   <body style="font-family: 'Poppins', sans-serif">
@@ -114,26 +144,37 @@
         </div>
       </div>
 
-      <table class="table table-striped">
+      <table class="table table-striped mt-3" id="example">
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Title</th>
+            <th scope="col">TITLE</th>
             <th scope="col">ID</th>
             <th scope="col">URL</th>
             <th scope="col">LENGTH</th>
             <th scope="col">THUMB_URL</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
           <% data.videos.forEach(function(ele,index){%>
           <tr>
             <th scope="row"><%= index+1%></th>
-            <td><%= ele.title%></td>
+            <td onclick="copyNameToClipboard('<%= ele.title%>')">
+              <%= ele.title%>
+            </td>
             <td><%= ele.id%></td>
-            <td><a href="<%= ele.url%>" target="_blank"><%= ele.url%></a></td>
+            <td>
+              <a href="<%= ele.url%>" target="_blank"><%= ele.url%></a>
+            </td>
             <td><%= ele.length%></td>
             <td><%= ele.thumbnail_url%></td>
+            <td>
+              <img
+                src="https://img.icons8.com/cute-clipart/50/000000/copy.png"
+                onclick="copyLinkToClipboard('<%= ele.url%>')"
+              />
+            </td>
           </tr>
           <%})%>
         </tbody>
@@ -143,13 +184,92 @@
 
     <p class="p-2 mt-5 bg-info text-white">Developed By: Dhaval Nakum</p>
 
+    <script>
+      const copyNameToClipboard = (str) => {
+        console.log("click", str);
+        const el = document.createElement("textarea");
+        el.value = str;
+        el.setAttribute("readonly", "");
+        el.style.position = "absolute";
+        el.style.left = "-9999px";
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+
+        Toastify({
+          text: "Title copied...",
+          backgroundColor: "linear-gradient(to right, #20bf55, #01baef)",
+          duration: 3000,
+        }).showToast();
+      };
+      const copyLinkToClipboard = (str) => {
+        console.log("click", str);
+        const el = document.createElement("textarea");
+        el.value = str;
+        el.setAttribute("readonly", "");
+        el.style.position = "absolute";
+        el.style.left = "-9999px";
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+
+        Toastify({
+          text: "Link copied...",
+
+          duration: 3000,
+        }).showToast();
+      };
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        $("#example").DataTable({
+          dom: "Bfrtip",
+          iDisplayLength: 50,
+          buttons: [
+            {
+              extend: "copy",
+              footer: true,
+              exportOptions: {
+                columns: [0, 1, 2, 3, 4, 5],
+              },
+            },
+            {
+              extend: "excel",
+              footer: true,
+              exportOptions: {
+                columns: [0, 1, 2, 3, 4, 5],
+              },
+            },
+            {
+              extend: "pdf",
+              footer: true,
+              exportOptions: {
+                columns: [0, 1, 2, 3, 4, 5],
+              },
+            },
+            {
+              extend: "print",
+              footer: true,
+              exportOptions: {
+                columns: [0, 1, 2, 3, 4, 5],
+              },
+            },
+          ],
+        });
+      });
+    </script>
+
     <!-- Optional JavaScript -->
+
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
+    <!-- <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
       crossorigin="anonymous"
-    ></script>
+    ></script> -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
       integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
@@ -159,6 +279,36 @@
       src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
+    ></script>
+
+    <!-- data-table -->
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"
     ></script>
   </body>
 </html>
